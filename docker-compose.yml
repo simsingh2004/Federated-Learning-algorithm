@@ -1,0 +1,40 @@
+services:
+  server:
+    build: .
+    container_name: fl_server
+    command: python server.py
+    ports:
+      - "8080:8080"
+
+  client0:
+    build: .
+    container_name: fl_client0
+    environment:
+      - SERVER_ADDRESS=server:8080
+    command: python client.py --cid 0 --num_clients 3
+    depends_on:
+      - server
+    mem_limit: 8g
+    cpus: 4.0
+
+  client1:
+    build: .
+    container_name: fl_client1
+    environment:
+      - SERVER_ADDRESS=server:8080
+    command: python client.py --cid 1 --num_clients 3
+    depends_on:
+      - server
+    mem_limit: 8g
+    cpus: 4.0
+
+  client2:
+    build: .
+    container_name: fl_client2
+    environment:
+      - SERVER_ADDRESS=server:8080
+    command: python client.py --cid 2 --num_clients 3
+    depends_on:
+      - server
+    mem_limit: 8g
+    cpus: 4.0
